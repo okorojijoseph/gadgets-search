@@ -1,0 +1,66 @@
+{% extends 'shop/index.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<!-- Page Content -->
+<!-- Banner Starts Here -->
+<div class="banner header-text">
+    <div class="owl-banner owl-carousel">
+        <div class="banner-item-01">
+            <div class="text-content">
+            <h4>Best Offer</h4>
+            <h2>Best Gadgets you can find</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner Ends Here -->
+
+<div class="latest-products">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="section-heading">
+                <h2>Recommended For You</h2>
+            </div>
+        </div>
+        {% for product in products %}
+            <div class="col-md-4">
+                <div class="product-item" style="height:20em;">
+                    <a href="{{ product.link }}"><img style="height: 10em; object-fit: cover;" src="{{ product.image }}" alt=""></a>
+                    <div class="down-content">
+                        <a href="{{ product.link }}"><h4>{{ product.name }}</h4></a>
+                        <p style="font-size:1em; font-weight:bold;">Price - ₦{{ product.price }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+</div>
+
+<div class="best-features">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+        <div class="section-heading">
+            <h2>About Gadgets Lookup</h2>
+        </div>
+        </div>
+        <div class="col-md-6">
+        <div class="left-content">
+            <ul class="featured-list">
+                <p>{{ sitedetail.desc|truncatechars:500 }}</p>
+            </ul>
+            <a href="{% url "about" %}" class="filled-button">See More</a>
+        </div>
+        </div>
+        <div class="col-md-6">
+        <div class="right-image">
+            <img src="{% static 'media/feature-image.jpg' %}" alt="">
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}
