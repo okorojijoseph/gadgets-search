@@ -55,6 +55,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ("name", "price", "created_at", "updated_at")
     list_filter = list_display
 
+
 class SiteDetailAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         obj, created = self.model.objects.get_or_create()

@@ -3,7 +3,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 import logging
 
-from . mappings import CLIENT_TEST_DATA, PRODUCTS_TEST_DATA, SUPERUSER_TEST_DATA
+from .mappings import CLIENT_TEST_DATA, PRODUCTS_TEST_DATA, SUPERUSER_TEST_DATA
 from shop.models import Product, User
 
 logging.basicConfig(level=logging.INFO)
@@ -17,7 +17,6 @@ class CreateData(object):
         self.create_products(user)
 
     def create_superuser(self) -> User:
-        
         superuser, created = User.objects.get_or_create(
             email=settings.FIRST_SUPERUSER_EMAIL, defaults=SUPERUSER_TEST_DATA
         )
@@ -38,7 +37,8 @@ class CreateData(object):
     def create_products(self, user) -> List[Product]:
         products_to_create = [Product(user=user, **p) for p in PRODUCTS_TEST_DATA]
         Product.objects.bulk_create(products_to_create)
-        
+
+
 def init() -> None:
     CreateData()
 

@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.forms import ValidationError
 import uuid
 
-from .managers import CustomUserManager
+from .managers import CustomUserManager, GetOrNoneManager
 
 
 class BaseModel(models.Model):
@@ -13,6 +13,8 @@ class BaseModel(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = GetOrNoneManager()
 
     class Meta:
         abstract = True
@@ -58,7 +60,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
 
-    avatar = models.ImageField(upload_to="avatars/", null=True)
+    avatar = models.URLField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
