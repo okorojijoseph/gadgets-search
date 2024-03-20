@@ -73,12 +73,20 @@
                   About
                 </a>
               </li>
-              {% url 'login' as login_url %}
-              <li class="nav-item {% if request.path == login_url %}active{% endif %}">
-                <a class="nav-link" href="{% url 'login' %}">
-                  Login
-                </a>
-              </li>
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout' %}">
+                    Logout
+                  </a>
+                </li>
+              {% else %}
+                {% url 'login' as login_url %}
+                <li class="nav-item {% if request.path == login_url %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'login' %}">
+                    Login
+                  </a>
+                </li>
+              {% endif %}
             </ul>
           </div>
         </div>
@@ -109,22 +117,6 @@
     <script src="{% static 'assets/js/slick.js' %}"></script>
     <script src="{% static 'assets/js/isotope.js' %}"></script>
     <script src="{% static 'assets/js/accordions.js' %}"></script>
-
-    <script type="text/Javascript">
-      function handleCredentialResponse(response) {
-        console.log(response?.credential)
-      }
-      window.onload = function () {
-        console.log("Yeea")
-        google.accounts.id.initialize({
-          client_id: '{{ sitedetail.google_client_id }}',
-          referrerPolicy: {
-            policy: 'strict-origin-when-cross-origin'
-          },
-          callback: handleCredentialResponse
-        });
-        google.accounts.id.prompt();
-      };
-    </script>
+    {% block js %} {% endblock %}
   </body>
 </html>

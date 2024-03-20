@@ -10,13 +10,14 @@ from .auth import Google, register_social_user
 from .models import Product
 
 
-class LoginView(LogoutRequiredMixin, View):
+class LoginPageView(LogoutRequiredMixin, View):
     def get(self, request):
         context = {}
         return render(request, "shop/login.html", context=context)
 
-    def post(self, request):
-        auth_token = request.POST.get("auth_token")
+class TokenView(LogoutRequiredMixin, View):
+    def get(self, request):
+        auth_token = request.GET.get("auth_token")
         user_data = Google.validate(auth_token)
         try:
             user_data["sub"]
