@@ -2,44 +2,13 @@
 {% load static %}
 {% block title %}Login{% endblock %}
 {% block content %}
-<style>
-    .google-signin-btn {
-        background-color: #fff;
-        color: rgba(0, 0, 0, 0.54);
-        border: 1px solid rgba(0, 0, 0, 0.12);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
-        border-radius: 2px;
-        font-size: 14px;
-        font-weight: 500;
-        height: 36px;
-        width:100%;
-        padding: 0 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
 
-    .google-signin-btn:hover {
-        background-color: rgba(0, 0, 0, 0.08);
-    }
-
-    .google-signin-btn img {
-        margin-right: 12px;
-        width: 18px;
-        height: 18px;
-        object-fit: cover;
-    }
-</style>
 <div class="card custom-card" style="padding: 20em 1em 20em 1em; align-items:center; width:100%;">
     <div class="card-header" style="width:100%; max-width:1000px;">
         <h5 class="card-title">LOGIN USER</h5>
         <div>
-            <button class="google-signin-btn" onclick="signInWithGoogle()">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo">
-                Sign In with Google
-            </button>
+            <div id="buttonDiv"></div>
+           
         </div>
     </div>
     <div class="card-body">
@@ -51,8 +20,20 @@
     function handleCredentialResponse(response) {
         window.location.href = `/token/?auth_token=${response?.credential}`
     }
+    window.onload = function () {
+        google.accounts.id.initialize({
+          client_id: "{{ sitedetail.google_client_id }}",
+          callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("buttonDiv"),
+          { theme: "outline", size: "large" }  // customization attributes
+        );
+    }
+   
+    
 
-    function signInWithGoogle() {
+    {% comment %} function signInWithGoogle() {
         google.accounts.id.initialize({
         client_id: '{{ sitedetail.google_client_id }}',
         referrerPolicy: {
@@ -61,6 +42,6 @@
         callback: handleCredentialResponse
         });
         google.accounts.id.prompt();
-    }
+    } {% endcomment %}
 </script>
 {% endblock %}
